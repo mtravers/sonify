@@ -1,6 +1,8 @@
 (ns sonify.core
   (:require sonify.sound
-            sonify.keyboard))
+;            sonify.keyboard
+            sonify.client
+            ))
 
 (enable-console-print!)
 

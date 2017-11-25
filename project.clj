@@ -10,8 +10,16 @@
                  [org.clojure/core.async  "0.3.443"]
                  [prismatic/dommy "1.1.0"] ;TODO for keyboard, not sure needed in final
                  [hipo "0.5.2"]            ;MF!
+                 [hum "0.4.0"]
                  [com.taoensso/sente "1.11.0"]
-                 [hum "0.4.0"]]
+                 [com.taoensso/timbre "4.7.4"]
+                 [http-kit "2.2.0"] ; Web server
+                 [ring                      "1.5.0"]
+                 [ring/ring-defaults        "0.2.1"] ; Includes `ring-anti-forgery`, etc.
+                 [compojure                 "1.5.1"] ; Or routing lib of your choice
+                 [hiccup                    "1.0.5"]
+                 ]
+
 
   :plugins [[lein-figwheel "0.5.14"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
@@ -19,7 +27,7 @@
   :source-paths ["src"]
 
   :cljsbuild {:builds
-              [{:id "dev"
+              [{:id "cljs-client"
                 :source-paths ["src"]
 
                 ;; The presence of a :figwheel configuration here
@@ -49,6 +57,8 @@
                            :main sonify.core
                            :optimizations :advanced
                            :pretty-print false}}]}
+
+  :main sonify.server
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
@@ -103,4 +113,8 @@
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
                    ;; need to add the compliled assets to the :clean-targets
                    :clean-targets ^{:protect false} ["resources/public/js/compiled"
-                                                     :target-path]}})
+                                                     :target-path]}}
+  :aliases
+  {"start-repl" ["do" "clean," "cljsbuild" "once," "repl" ":headless"]
+   "start"      ["do" "clean," "cljsbuild" "once," "run"]}
+  )

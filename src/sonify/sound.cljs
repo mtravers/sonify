@@ -16,5 +16,21 @@
 
 (hum/note-off output vco 440)
 
+(defn note-num-to-frequency [note-num]
+  (let [expt-numerator (- note-num 49)
+        expt-denominator 12
+        expt (/ expt-numerator expt-denominator)
+        multiplier (.pow js/Math 2 expt)
+        a 440]
+  (* multiplier a)))
+
+(defn note-on [note-num]
+  (let [freq (note-num-to-frequency note-num)]
+    (hum/note-on output vco freq)))
+
+(defn note-off []
+  (hum/note-off output))
+
+
   
 
